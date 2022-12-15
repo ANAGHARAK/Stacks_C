@@ -1,0 +1,89 @@
+#include <assert.h>
+#include <ctype.h>
+#include <limits.h>
+#include <math.h>
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct _node node;
+struct _node{
+    long long int data;
+    node *next;
+};
+
+node* getnode(long long int data)
+{
+    node *newnode=(node*)malloc(sizeof(node));
+    newnode->data=data;
+    newnode->next=NULL;
+    return newnode;
+}
+
+node *push(node *top, long long int data)
+{
+    node * newnode=getnode(data);
+    if(top==NULL)
+    {
+        return newnode;
+    }
+    newnode->next=top;
+    return newnode;
+}
+
+node *pop(node *top)
+{
+    node *temp=top;
+    top=top->next;
+    free(temp);
+    return top;
+}
+
+void printMax(node *maxtop)
+{
+    printf("%lld\n",maxtop->data);
+}
+
+int main()
+{
+    long long int N;
+    long long int data;
+    scanf("%lld",&N);
+    int choice;
+    node *top=NULL, *maxtop=NULL;
+    while(N)
+    {
+        scanf("%d",&choice);
+        if(choice==1)
+        {
+            scanf("%lld",&data);
+            if(top==NULL)
+            {
+                maxtop=push(top,data);
+            }
+            else if(data>=maxtop->data)
+            {
+                maxtop=push(maxtop,data);
+            }
+            top=push(top,data);
+        }
+        else if(choice==2)
+        {
+            if(top->data==maxtop->data)
+            {
+                maxtop=pop(maxtop);
+            }
+            top=pop(top);
+        }
+        else if(choice==3)
+        {
+            printMax(maxtop);
+        }
+        N--;
+
+}   
+return 0;
+}
